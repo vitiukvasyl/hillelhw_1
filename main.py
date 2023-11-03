@@ -1,23 +1,23 @@
-def parse(query: str) -> dict:
-    query_dict = {}
-    if '?' in query:
-        query_params = query.split('?')[1].split('&')
-        for param in query_params:
-            if '=' in param:
-                key, value = param.split('=')
-                query_dict[key] = value
-    return query_dict
-
+def parse_cookie(query: str) -> dict:
+    cookie_dict = {}
+    if query:
+        cookie_params = query.split(';')
+        for param in cookie_params:
+            param_parts = param.strip().split('=', 1)
+            if len(param_parts) == 2:
+                key, value = param_parts
+                cookie_dict[key] = value
+    return cookie_dict
 
 if __name__ == '__main__':
-    result = parse('https://example.com/path/to/page?name=ferret&color=purple&')
+    result = parse_cookie('name=Dima;')
     print(result)
 
-    result = parse('http://example.com/')
+    result = parse_cookie('')
     print(result)
 
-    result = parse('http://example.com/?')
+    result = parse_cookie('name=Dima;age=28;')
     print(result)
 
-    result = parse('http://example.com/?name=Dima')
+    result = parse_cookie('name=Dima=User;age=28;')
     print(result)
